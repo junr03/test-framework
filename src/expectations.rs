@@ -44,14 +44,17 @@ impl ExpectHandle {
     pub fn assert_stage(&self) {
         if self.staged.expect_count > 0 {
             panic!(
-                "Error: failed to consume all expectations - total remaining: {}",
-                self.staged.expect_count
+                "Error: failed to consume all expectations - total remaining: {}\n\
+                expectation context:{:?}",
+                self.staged.expect_count, self.staged
             );
         } else if self.staged.expect_count < 0 {
             panic!(
                 "Error: expectations failed to account for all host calls by {} \n\
-            if this is intended, please use --allow-unexpected (-a) mode",
-                -1 * self.staged.expect_count
+            if this is intended, please use --allow-unexpected (-a) mode.\n\
+            expectation context:{:?}",
+                -1 * self.staged.expect_count,
+                self.staged
             );
         }
     }
